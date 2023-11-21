@@ -17,7 +17,7 @@ var app = express();
 const indexRouter = require("./Routes/index");
 
 // var usersRouter = require("./routes/users");
-// var newsRouter = require("./routes/news");
+var newsRouter = require("./Routes/news.js");
 
 app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
@@ -27,7 +27,7 @@ app.use(express.static(path.join(__dirname, "public")));
 
 app.use("/", indexRouter);
 // app.use("/users", usersRouter);
-// app.use("/news", newsRouter);
+app.use("/news", newsRouter);
 
 
 app.listen(PORT,()=>{
