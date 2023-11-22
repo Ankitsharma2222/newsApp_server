@@ -1,13 +1,28 @@
 const News = require("../Models/news.js");
 
 const getNewsById = async (req, res, next) => {
-    try {
-        const news = await News.findById(req.params["id"]);
-        res.send(news);
-    } catch (e) {
-        res.status(500).send(e);
-    }
+    console.log("tatti")
+    News.findById(req.params["id"])
+    .then((newss)=>{
+        if(!newss){
+            throw new Error("No news Found")
+        }
+        res.send(newss)
+    }).catch(err=>{
+        res.status(500).send(e)
+    })
 };
+const getallnews= (req,res)=>{
+    News.find()
+    .then((newss)=>{
+        if(!newss){
+            throw new Error("No news Found")
+        }
+        res.send(newss)
+    }).catch(err=>{
+        res.status(500).send(e)
+    })
+} 
 
 const getNews = async (req, res, next) => {
     const search_query = req.params["searchQuery"];
@@ -26,10 +41,9 @@ const getNews = async (req, res, next) => {
 
 const listNews = async (req, res, next) => {
     let { genre } = req.params;
-    
-
-    try {
-        const news = await News.find(
+    genre = genre.toLowerCase()
+    console.log(genre)
+       News.find(
             {
                 genre: { $in: genre },
                 
@@ -42,16 +56,16 @@ const listNews = async (req, res, next) => {
                 "date",
                 "genre",
             ],
-            { sort: "-date", skip: Number(skip), limit: 12 }
-        );
-        if (news) {
-             res.send(news);
-        } else {
-            res.status(500).send("No news to show.");
-        }
-    } catch (err) {
-        console.log(err);
-    }
+            { sort: "-date", limit: 12 }
+        )
+        .then((newss)=>{
+            if(!newss){
+                throw new Error("No news Found")
+            }
+            res.send(newss)
+        }).catch(err=>{
+            res.status(500).send(e)
+        })
 };
 
 const postNews = async (req, res, next) => {
@@ -67,4 +81,4 @@ const postNews = async (req, res, next) => {
     }
 };
 
-module.exports = { getNewsById, getNews, postNews, listNews };
+module.exports = { getNewsById, getNews, postNews, listNews,getallnews };

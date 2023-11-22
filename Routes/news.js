@@ -4,14 +4,14 @@ const {
     getNews,
     listNews,
     postNews,
+    getallnews
 } = require("../controllers/newsController");
 
 
 var router = express.Router();
-
+router.get("/",getallnews)
 router.get("/:id", getNewsById);
-router.get("/list/:genres", listNews);
-router.get("/search/:searchQuery", getNews);
+router.get("/list/:genre", listNews);
+// router.get("/search/:searchQuery", getNews);
 router.post("/post", postNews);
-
 module.exports = router;
