@@ -1,7 +1,6 @@
 const News = require("../Models/news.js");
 
 const getNewsById = async (req, res, next) => {
-    console.log("tatti")
     News.findById(req.params["id"])
     .then((newss)=>{
         if(!newss){
